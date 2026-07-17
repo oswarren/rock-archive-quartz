@@ -142,11 +142,16 @@ for (const note of plan.blocked) {
     lines.push('')
     lines.push('## Availability')
     lines.push('')
+    if (fm.price_estimate) {
+      lines.push(`Suggested range (advisory, vault-only — never shown publicly): **${fm.price_estimate}**${fm.price_estimate_basis ? ` — ${fm.price_estimate_basis}` : ''}`)
+      lines.push('')
+    }
     if (fm.available === true) {
       const priceText = (fm.price === 0 || fm.price) ? `$${fm.price}` : '(no price set)'
       lines.push(`Marked **available** — ${priceText}${fm.purchase_url ? ` · ${fm.purchase_url}` : ' · (no purchase_url set)'}`)
       lines.push('')
       lines.push('Publishes as ONE quiet italic note at the very bottom of the page, after all content — no card, banner, price lead, or checkout. Nothing else on the page or site changes.')
+      if (!fm.price && fm.price_estimate) lines.push(`\nTip: pick a number from the suggested range above and set \`price:\` — until then the public note reads a bare "Available".`)
     } else {
       lines.push('Not for sale (`available: false`) — no purchasing information will appear publicly. This is the default and the state after a sale.')
     }

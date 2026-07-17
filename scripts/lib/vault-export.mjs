@@ -56,6 +56,7 @@ export const INTERNAL_KEYS = [
   'image_paths', 'image_exports', 'revision', 'report_date', 'prepared_by',
   'specimen_id', 'date', 'participants', 'conditions', 'specimens_collected',
   'available', 'price', 'purchase_url',
+  'valuation_status', 'price_estimate', 'price_estimate_basis',
 ]
 
 // Builds the one restrained availability element, or null. Rendered at the very
