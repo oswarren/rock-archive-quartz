@@ -1,9 +1,8 @@
 name: CI — privacy self-test + build
 
+# PRs only — pushes to main are built + gated by deploy.yml (since launch 2026-07-17),
+# so this avoids a redundant second build on every push.
 on:
-  push:
-    branches:
-      - main
   pull_request:
     branches:
       - main

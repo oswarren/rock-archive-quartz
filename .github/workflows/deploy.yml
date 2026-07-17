@@ -1,9 +1,11 @@
 name: Deploy Quartz site to GitHub Pages
 
-# DEFERRED LAUNCH: manual trigger only, and GitHub Pages is not yet configured.
-# When the first real, reviewed specimen records exist, flip this to
-# `on: push: branches: [main]` and enable Pages (source: GitHub Actions).
+# LAUNCHED 2026-07-17 with the first reviewed specimen (ROCK-0001). Deploys on push to
+# main; the privacy self-test gates every deploy. Pages source = GitHub Actions.
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:

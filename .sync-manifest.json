@@ -1,11 +1,15 @@
 {
-  "updated": "2026-07-17T18:31:55.242Z",
+  "updated": "2026-07-17T19:51:00.608Z",
   "files": [
     "about.md",
     "collections/index.md",
     "discover/index.md",
     "explainers/index.md",
     "index.md",
-    "locations/index.md"
+    "locations/index.md",
+    "specimens/rock-0001/index.md",
+    "specimens/rock-0001/rock-0001-detail-01.jpg",
+    "specimens/rock-0001/rock-0001-view-01.jpg",
+    "specimens/rock-0001/rock-0001-view-02.jpg"
   ]
 }
