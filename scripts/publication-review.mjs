@@ -138,6 +138,19 @@ for (const note of plan.blocked) {
     lines.push('')
     lines.push(`Not selected (stay private): ${notSelected.join(', ')}`)
   }
+  if (fm.record_type === 'specimen') {
+    lines.push('')
+    lines.push('## Availability')
+    lines.push('')
+    if (fm.available === true) {
+      const priceText = (fm.price === 0 || fm.price) ? `$${fm.price}` : '(no price set)'
+      lines.push(`Marked **available** — ${priceText}${fm.purchase_url ? ` · ${fm.purchase_url}` : ' · (no purchase_url set)'}`)
+      lines.push('')
+      lines.push('Publishes as ONE quiet italic note at the very bottom of the page, after all content — no card, banner, price lead, or checkout. Nothing else on the page or site changes.')
+    } else {
+      lines.push('Not for sale (`available: false`) — no purchasing information will appear publicly. This is the default and the state after a sale.')
+    }
+  }
   lines.push('')
   lines.push('## Links')
   lines.push('')
@@ -155,9 +168,11 @@ for (const note of plan.blocked) {
   lines.push('## Your decision')
   lines.push('')
   lines.push('- **Approve:** set `publication_approved: YYYY-MM-DD` in the note\'s frontmatter, then run `node scripts/sync-public.mjs --write`.')
-  lines.push('- **Approve only some images:** edit `image_exports` first.')
-  lines.push('- **Generalize the location further:** edit `collection_location_public` / `region_public` first.')
+  lines.push('- **Revise identification:** tell me and I\'ll re-rank / adjust wording; or edit `possible_identifications` yourself.')
+  lines.push('- **Make location broader:** edit `collection_location_public` / `region_public` first.')
+  lines.push('- **Remove this image:** drop it from `image_exports`.')
   lines.push('- **Remove claims:** edit the Claims Register / prose first.')
+  lines.push('- **Change price / not available:** set `price:` / `purchase_url:`, or `available: false`.')
   lines.push('- **Keep private:** set `public: false` (this report can be deleted).')
   lines.push('')
 

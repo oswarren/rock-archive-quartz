@@ -47,12 +47,28 @@ export const PUBLIC_KEYS = [
 ]
 
 // Known vault-internal keys: silently not copied (their presence is normal).
+// Commerce keys are deliberately here, NOT in PUBLIC_KEYS — availability is rendered
+// as a restrained note in the page body (see availabilityBlock), never as public
+// frontmatter/metadata. When available is false, nothing commerce-related exports.
 export const INTERNAL_KEYS = [
   'public', 'publication_approved', 'needs_user_review', 'status',
   'research_status', 'sources', 'claims_needing_review',
   'image_paths', 'image_exports', 'revision', 'report_date', 'prepared_by',
   'specimen_id', 'date', 'participants', 'conditions', 'specimens_collected',
+  'available', 'price', 'purchase_url',
 ]
+
+// Builds the one restrained availability element, or null. Rendered at the very
+// bottom of a specimen page, after all archival/geological content and sources.
+export function availabilityBlock(fm) {
+  if (fm.record_type !== 'specimen' || fm.available !== true) return null
+  const priceText = (fm.price === 0 || fm.price) ? ` — $${fm.price}` : ''
+  const link = (fm.purchase_url && /^https?:/i.test(fm.purchase_url))
+    ? ` · [View purchase details](${fm.purchase_url})`
+    : ''
+  // Quiet archival note: a rule, then one small italic line. No card, banner, or CTA.
+  return `\n\n---\n\n*Available${priceText}${link}*\n`
+}
 
 export function isPrivateKey(key) {
   return /_private$/i.test(key) ||
@@ -241,6 +257,7 @@ export function planExports(vault) {
       note.droppedPrivate = droppedPrivate
       note.droppedInternal = droppedInternal
       note.strippedPrivateNotes = strippedPrivateNotes
+      note.availability = availabilityBlock(fm) // null unless specimen + available:true
       plan.exports.push(note)
     }
   }
@@ -260,16 +277,35 @@ export function planExports(vault) {
     const unresolved = []
     const embedErrors = []
 
+    const matchApprovedImage = (ref) => {
+      const base = path.basename(ref).toLowerCase()
+      return note.images.find(i =>
+        i.original.toLowerCase() === ref || path.basename(i.original).toLowerCase() === base)
+    }
+    const isImageRef = (ref) => /\.(jpe?g|png|webp|tiff?|heic|gif)$/i.test(ref)
+
+    // Markdown-style image embeds: ![alt](file). Rewrite approved images to their
+    // sanitized name (so device/original filenames never leak); refuse unapproved
+    // local images; leave external URLs alone.
+    note.publicBody = note.publicBody.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (full, alt, target) => {
+      const ref = target.trim()
+      if (/^https?:/i.test(ref)) return full
+      const img = matchApprovedImage(ref.toLowerCase())
+      if (img) return `![${img.caption || alt || note.fm.title || ''}](${img.exportedName})`
+      if (isImageRef(ref)) {
+        embedErrors.push(`${note.relVault}: markdown image "${ref}" is not in image_exports — export refused (no unapproved image may publish).`)
+      }
+      return full
+    })
+
     note.publicBody = note.publicBody.replace(WIKILINK_RE, (full, bang, target, anchor, alias) => {
       const key = target.trim().toLowerCase()
 
       if (bang === '!') {
-        // Embed: only publication-approved images may appear.
-        const img = note.images.find(i =>
-          i.original.toLowerCase() === key || path.basename(i.original).toLowerCase() === `${key}`.toLowerCase() ||
-          path.basename(i.original).toLowerCase() === key)
+        // Obsidian embed ![[file]]: only publication-approved images may appear.
+        const img = matchApprovedImage(key)
         if (img) return `![${img.caption || alias || note.fm.title || ''}](${img.exportedName})`
-        if (/\.(jpe?g|png|webp|tiff?|heic|gif)$/i.test(key)) {
+        if (isImageRef(key)) {
           embedErrors.push(`${note.relVault}: embedded image "${target}" is not in image_exports — export refused (no unapproved image may publish).`)
           return full
         }
@@ -314,5 +350,8 @@ function loadedSource(sources, key) {
 export function renderExport(note) {
   const fmText = stringifyYaml(note.publicFm).trimEnd()
   const header = '<!-- Generated from the private rock-archive vault by scripts/sync-public.mjs. Do not edit here; edit the vault record and re-sync. -->'
-  return `---\n${fmText}\n---\n${header}\n\n${note.publicBody.replace(/\s+$/, '')}\n`
+  // Availability (if any) is the very last thing on the page — after story, research,
+  // related paths, and sources.
+  const body = note.publicBody.replace(/\s+$/, '') + (note.availability || '')
+  return `---\n${fmText}\n---\n${header}\n\n${body.replace(/\s+$/, '')}\n`
 }

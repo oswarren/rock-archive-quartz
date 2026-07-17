@@ -44,6 +44,53 @@ Quartz v5 site publishing curated records from the **private vault** at
   scanner catches the fixture in `tests/privacy-fixtures/` — this is what CI runs, so
   CI never needs the vault.
 
+## Site experience — a collection to explore, not a catalog
+
+The site must feel like exploring a real rock collection, not reading a spreadsheet or
+shopping a store.
+
+**Homepage (`content/index.md`, generated from the vault's `70 Public Pages\Start
+Here.md`).** Collection-first. It foregrounds strong specimen photography, recently
+added specimens, a few especially interesting rocks, and several clear ways to browse
+(locations, geological stories, unresolved mysteries, cross-archive connections). It
+**never** resembles a storefront: no products, prices, shopping language, availability
+counts, sale promotions, or checkout calls-to-action anywhere near the top. The primary
+impression is: *here is a physical collection being documented, examined, connected, and
+understood over time.*
+
+**Discovery / browse pages.** Generate and maintain browse paths from the *actual*
+collection — candidates include All Specimens, Recently Added, by Location, by Rock or
+Mineral Type, by Geological Process, by Appearance / Texture / Color, by Estimated Age,
+by Human Use, Collection Trips, Unresolved Identifications, Specimens With Suggested
+Tests, Related Specimens, Random Specimen, Featured Specimens. **Create one only when it
+yields a genuinely useful browsing experience** — never an empty or shallow page just
+because a frontmatter value exists once. Favor a smaller number of substantial, linked
+pages over hundreds of thin tags. These pages are produced by the vault→sync flow (or
+lightweight Quartz index/folder pages), not hand-built; while the collection is tiny,
+having very few of them is correct.
+
+**Connections.** Every specimen page should offer several natural paths deeper into the
+collection (location, likely materials, processes, periods, related specimens, themes,
+sources, open questions) — linked on shared qualities that matter, never on a broad
+shared word like "rock."
+
+## Commerce — a whisper, never the architecture
+
+Selling exists only as a restrained note on individual specimen pages. It must not shape
+site structure, tone, the homepage, or browsing.
+
+- The **sync script renders** the availability element from the vault's `available` /
+  `price` / `purchase_url` fields — do **not** build a Quartz storefront component,
+  product card, store collection, commerce filter, or checkout flow, and do not put
+  commerce data in public frontmatter/metadata.
+- `available: false` (default, and post-sale) → **no purchasing UI at all**; the page
+  stays in the archive permanently, no "sold" badge.
+- `available: true` → exactly one quiet italic line at the very bottom of the page,
+  after story, research, related paths, and sources (`*Available — $24 · View purchase
+  details*`). It reads as an archival aside, not a product card or banner.
+- Page hierarchy is always **specimen → story & research → related paths → optional
+  availability.**
+
 ## Workflow
 
 - `main` + short-lived branches. Local preview: `npx quartz build --serve`.
