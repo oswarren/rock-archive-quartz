@@ -11,3 +11,8 @@ private/
 replit.nix
 .quartz/
 quartz/cli/tui/dist/
+
+# rock-archive: never commit secrets or anything from the vault
+.env
+.env.*
+.claude/settings.local.json

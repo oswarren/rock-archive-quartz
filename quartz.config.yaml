@@ -1,0 +1,290 @@
+# yaml-language-server: $schema=./quartz/plugins/quartz-plugins.schema.json
+configuration:
+  pageTitle: Rock Archive
+  pageTitleSuffix: " — Rock Archive"
+  enableSPA: true
+  enablePopovers: true
+  analytics:
+    provider: null
+  locale: en-US
+  baseUrl: oswarren.github.io/rock-archive-quartz
+  ignorePatterns:
+    - private
+    - templates
+    - .obsidian
+  theme:
+    fontOrigin: googleFonts
+    cdnCaching: true
+    typography:
+      header: Schibsted Grotesk
+      body: Source Sans Pro
+      code: IBM Plex Mono
+    colors:
+      lightMode:
+        light: "#faf9f7"
+        lightgray: "#e6e3de"
+        gray: "#b5b0a7"
+        darkgray: "#4c4842"
+        dark: "#2a2723"
+        secondary: "#5b4a3f"
+        tertiary: "#8a9a8b"
+        highlight: rgba(150, 140, 120, 0.15)
+        textHighlight: "#fff23688"
+      darkMode:
+        light: "#171614"
+        lightgray: "#3a3733"
+        gray: "#6b6660"
+        darkgray: "#d6d2cb"
+        dark: "#edebe7"
+        secondary: "#b09a86"
+        tertiary: "#8a9a8b"
+        highlight: rgba(150, 140, 120, 0.15)
+        textHighlight: "#b3aa0288"
+plugins:
+  - source: github:quartz-community/created-modified-date
+    enabled: true
+    options:
+      defaultDateType: modified
+      priority:
+        - frontmatter
+        - git
+        - filesystem
+    order: 10
+  - source: github:quartz-community/syntax-highlighting
+    enabled: true
+    options:
+      theme:
+        light: github-light
+        dark: github-dark
+      keepBackground: false
+    order: 20
+  - source: github:quartz-community/obsidian-flavored-markdown
+    enabled: true
+    options:
+      comments: true
+      highlight: false
+      wikilinks: true
+      callouts: true
+      mermaid: true
+      parseTags: true
+      parseArrows: true
+      parseBlockReferences: true
+      enableInHtmlEmbed: false
+      enableYouTubeEmbed: true
+      enableVideoEmbed: true
+      enableCheckbox: true
+    order: 30
+  - source: github:quartz-community/github-flavored-markdown
+    enabled: true
+    order: 40
+  - source: github:quartz-community/table-of-contents
+    enabled: false
+    order: 50
+    layout:
+      position: right
+      priority: 30
+  - source: github:quartz-community/crawl-links
+    enabled: true
+    options:
+      markdownLinkResolution: shortest
+    order: 60
+  - source: github:quartz-community/description
+    enabled: true
+    order: 70
+  - source: github:quartz-community/latex
+    enabled: false
+    options:
+      renderEngine: katex
+    order: 80
+  - source: github:quartz-community/citations
+    enabled: false
+    order: 85
+  - source: github:quartz-community/hard-line-breaks
+    enabled: true
+    order: 90
+  - source: github:quartz-community/ox-hugo
+    enabled: false
+    order: 91
+  - source: github:quartz-community/roam
+    enabled: false
+    order: 92
+  - source: github:quartz-community/fonts
+    enabled: true
+  - source: github:quartz-community/remove-draft
+    enabled: true
+  - source: github:quartz-community/explicit-publish
+    # Defense-in-depth: only pages carrying `publish: true` build, and only
+    # scripts/sync-public.mjs writes that key. Hand-dropped files never publish.
+    enabled: true
+  - source: github:quartz-community/unlisted-pages
+    enabled: true
+    options: {}
+    order: 45
+  - source: github:quartz-community/encrypted-pages
+    enabled: false
+  - source: github:quartz-community/stacked-pages
+    enabled: false
+    layout:
+      position: afterBody
+      priority: 50
+      display: all
+  - source: github:quartz-community/alias-redirects
+    enabled: true
+  - source: github:quartz-community/content-index
+    enabled: true
+    options:
+      enableSiteMap: true
+      enableRSS: true
+  - source: github:quartz-community/favicon
+    enabled: true
+  - source: github:quartz-community/og-image
+    enabled: true
+  - source: github:quartz-community/cname
+    enabled: false
+  - source: github:quartz-community/canvas-page
+    enabled: false
+  - source: github:quartz-community/content-page
+    enabled: true
+  - source: github:quartz-community/folder-page
+    enabled: true
+  - source: github:quartz-community/tag-page
+    enabled: true
+  - source: github:quartz-community/explorer
+    enabled: true
+    layout:
+      position: left
+      priority: 50
+  - source: github:quartz-community/graph
+    # Local graph: specimen ↔ material ↔ process ↔ location ↔ theme.
+    # The knowledge-graph walk is the point of the archive.
+    enabled: true
+    options:
+      localGraph:
+        depth: 1
+      globalGraph:
+        showTags: false
+    layout:
+      position: right
+      priority: 10
+  - source: github:quartz-community/search
+    enabled: true
+    layout:
+      position: left
+      priority: 20
+      group: toolbar
+      groupOptions:
+        grow: true
+  - source: github:quartz-community/backlinks
+    enabled: true
+    layout:
+      position: right
+      priority: 50
+  - source: github:quartz-community/article-title
+    enabled: true
+    layout:
+      position: beforeBody
+      priority: 10
+  - source: github:quartz-community/content-meta
+    enabled: false
+    layout:
+      position: beforeBody
+      priority: 20
+  - source: github:quartz-community/tag-list
+    enabled: true
+    layout:
+      position: beforeBody
+      priority: 30
+  - source: github:quartz-community/page-title
+    enabled: true
+    layout:
+      position: left
+      priority: 10
+  - source: github:quartz-community/darkmode
+    enabled: true
+    layout:
+      position: left
+      priority: 30
+      group: toolbar
+  - source: github:quartz-community/reader-mode
+    enabled: true
+    layout:
+      position: left
+      priority: 35
+      group: toolbar
+  - source: github:quartz-community/breadcrumbs
+    enabled: true
+    layout:
+      position: beforeBody
+      priority: 5
+      condition: not-index
+  - source: github:quartz-community/comments
+    enabled: false
+    options:
+      provider: giscus
+      options: {}
+    layout:
+      position: afterBody
+      priority: 10
+  - source: github:quartz-community/footer
+    enabled: true
+    options:
+      links:
+        GitHub: https://github.com/oswarren/rock-archive-quartz
+  - source: github:quartz-community/recent-notes
+    enabled: false
+  - source: github:quartz-community/spacer
+    enabled: true
+    options: {}
+    order: 25
+    layout:
+      position: left
+      priority: 25
+      display: mobile-only
+  - source: github:quartz-community/bases-page
+    enabled: false
+    options: {}
+    order: 50
+  - source: github:quartz-community/note-properties
+    enabled: true
+    options:
+      includeAll: false
+      includedProperties:
+        - description
+        - tags
+        - aliases
+      excludedProperties: []
+      # panel hidden but the plugin stays enabled: it is also the site's
+      # frontmatter transformer — disabling it entirely breaks tag parsing
+      hidePropertiesView: true
+      delimiters: ---
+      language: yaml
+    order: 5
+    layout:
+      position: beforeBody
+      priority: 15
+      display: all
+layout:
+  groups:
+    toolbar:
+      priority: 35
+      direction: row
+      gap: 0.5rem
+  byPageType:
+    "404":
+      positions:
+        beforeBody: []
+        left: []
+        right: []
+    content: {}
+    folder:
+      exclude:
+        - reader-mode
+      positions:
+        right: []
+    tag:
+      exclude:
+        - reader-mode
+      positions:
+        right: []
+    canvas: {}
+    bases: {}
