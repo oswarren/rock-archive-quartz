@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-17T20:18:55.121Z",
+  "updated": "2026-07-18T17:04:03.044Z",
   "files": [
     "about.md",
     "collections/index.md",
@@ -10,6 +10,16 @@
     "specimens/rock-0001/index.md",
     "specimens/rock-0001/rock-0001-detail-01.jpg",
     "specimens/rock-0001/rock-0001-view-01.jpg",
-    "specimens/rock-0001/rock-0001-view-02.jpg"
+    "specimens/rock-0001/rock-0001-view-02.jpg",
+    "specimens/rock-0002/index.md",
+    "specimens/rock-0002/rock-0002-detail-01.jpg",
+    "specimens/rock-0002/rock-0002-detail-02.jpg",
+    "specimens/rock-0002/rock-0002-view-01.jpg",
+    "specimens/rock-0002/rock-0002-view-02.jpg",
+    "specimens/rock-0003/index.md",
+    "specimens/rock-0003/rock-0003-detail-01.jpg",
+    "specimens/rock-0003/rock-0003-view-01.jpg",
+    "specimens/rock-0003/rock-0003-view-02.jpg",
+    "specimens/rock-0003/rock-0003-view-03.jpg"
   ]
 }
